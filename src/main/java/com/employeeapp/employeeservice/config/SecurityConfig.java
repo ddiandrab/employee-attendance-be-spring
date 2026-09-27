@@ -74,6 +74,12 @@ public class SecurityConfig {
                                                                 "/departments/**")
                                                 .hasRole("ADMIN")
 
+                                                // Hanya ADMIN boleh create employee
+                                                .requestMatchers(
+                                                                HttpMethod.POST,
+                                                                "/employees/**")
+                                                .hasRole("ADMIN")
+
                                                 // Endpoint lainnya harus login
                                                 .anyRequest()
                                                 .authenticated())

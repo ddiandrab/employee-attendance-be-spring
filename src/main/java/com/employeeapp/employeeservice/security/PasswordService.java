@@ -7,8 +7,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class PasswordService {
 
-        private final Argon2 argon2 = Argon2Factory.create(
-                        Argon2Factory.Argon2Types.ARGON2id);
+        private final Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
+
+        public String hash(String rawPassword) {
+                char[] passwordChars = rawPassword.toCharArray();
+
+                try {
+                        return argon2.hash(
+                                        3,
+                                        65536,
+                                        4,
+                                        passwordChars);
+                } finally {
+                        argon2.wipeArray(passwordChars);
+                }
+        }
 
         public boolean matches(
                         String rawPassword,
@@ -20,8 +33,8 @@ public class PasswordService {
                                 rawPassword.toCharArray());
         }
 
-
-        // Normalizes the Argon2 hash to ensure compatibility with the Java Argon2 library.
+        // Normalizes the Argon2 hash to ensure compatibility with the Java Argon2
+        // library.
         // Format: $argon2id$v=19$m=65536,t=3,p=4$<salt>$<hash>
         private String normalizeArgon2Hash(String hash) {
 
