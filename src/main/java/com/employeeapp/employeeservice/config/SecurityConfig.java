@@ -80,6 +80,22 @@ public class SecurityConfig {
                                                                 "/employees/**")
                                                 .hasRole("ADMIN")
 
+                                                .requestMatchers(
+                                                                HttpMethod.POST,
+                                                                "/attendance/check-in",
+                                                                "/attendance/check-out")
+                                                .hasAnyRole("EMPLOYEE", "HR", "ADMIN")
+
+                                                .requestMatchers(
+                                                                HttpMethod.GET,
+                                                                "/attendance/me")
+                                                .hasAnyRole("EMPLOYEE", "HR", "ADMIN")
+
+                                                .requestMatchers(
+                                                                HttpMethod.GET,
+                                                                "/attendance")
+                                                .hasAnyRole("HR", "ADMIN")
+
                                                 // Endpoint lainnya harus login
                                                 .anyRequest()
                                                 .authenticated())
