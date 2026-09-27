@@ -4,7 +4,7 @@ Dokumen ini adalah checklist pengujian end-to-end untuk seluruh API yang tersedi
 
 ## Persiapan
 
-- Jalankan PostgreSQL utama, PostgreSQL audit, dan Kafka dari `docker compose up -d`.
+- Jalankan PostgreSQL utama dan PostgreSQL audit dari repository NestJS (`employee-attendance-be-nestjs`) dengan `docker compose up -d`. Spring menggunakan database tersebut pada port `5432` dan `5433`; proyek Spring hanya menjalankan Kafka dengan `docker compose up -d`.
 - Jalankan aplikasi pada `http://localhost:8080`.
 - Siapkan akun `ADMIN` dan `HR` yang sudah ada di database. Gunakan email employee yang unik pada setiap pengujian, misalnya `employee.test+<timestamp>@example.com`.
 - Simpan token hasil login sebagai `ADMIN_TOKEN`, `HR_TOKEN`, dan `EMPLOYEE_TOKEN`. Setiap endpoint selain `POST /auth/login` memakai header `Authorization: Bearer <token>`.
