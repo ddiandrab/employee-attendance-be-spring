@@ -13,9 +13,28 @@ spring:
         format_sql: true
   flyway:
     enabled: false
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: ${KAFKA_AUDIT_GROUP_ID:employee-audit-log}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.employeeapp.employeeservice.audit.event
+        spring.json.value.default.type: com.employeeapp.employeeservice.audit.event.EmployeeProfileUpdatedEvent
 app:
   jwt:
     secret: ${JWT_SECRET:employee-service-development-jwt-secret-key-123456789}
     expiration: 3600000
+  kafka:
+    employee-audit-topic: ${KAFKA_AUDIT_TOPIC:employee-audit-events}
+  audit:
+    datasource:
+      url: ${AUDIT_DATABASE_URL:jdbc:postgresql://localhost:5433/employee_audit_log}
+      username: ${AUDIT_DATABASE_USERNAME:postgres}
+      password: ${AUDIT_DATABASE_PASSWORD:postgres}
 server:
   port: 8080

@@ -81,6 +81,11 @@ public class SecurityConfig {
                                                 .hasRole("ADMIN")
 
                                                 .requestMatchers(
+                                                                HttpMethod.PATCH,
+                                                                "/employees/me")
+                                                .hasAnyRole("EMPLOYEE", "HR", "ADMIN")
+
+                                                .requestMatchers(
                                                                 HttpMethod.POST,
                                                                 "/attendance/check-in",
                                                                 "/attendance/check-out")
