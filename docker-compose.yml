@@ -1,29 +1,27 @@
 services:
   postgres:
     image: postgres:17
-    container_name: employee-postgres
     environment:
-      POSTGRES_DB: employee_db
-      POSTGRES_USER: employee_user
-      POSTGRES_PASSWORD: employee_password
+      POSTGRES_DB: employee_attendance
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - "5434:5432"
     volumes:
       - employee_postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
   audit-postgres:
     image: postgres:17
-    container_name: employee-audit-postgres
     environment:
       POSTGRES_DB: employee_audit_log
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5433:5432"
+      - "5435:5432"
     volumes:
       - employee_audit_postgres_data:/var/lib/postgresql/data
   kafka:
     image: apache/kafka:3.9.0
-    container_name: employee-kafka
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
