@@ -96,6 +96,16 @@ public class SecurityConfig {
                                                                 "/attendance")
                                                 .hasAnyRole("HR", "ADMIN")
 
+                                                .requestMatchers(
+                                                                HttpMethod.GET,
+                                                                "/notifications/**")
+                                                .hasAnyRole("EMPLOYEE", "HR", "ADMIN")
+
+                                                .requestMatchers(
+                                                                HttpMethod.PATCH,
+                                                                "/notifications/**")
+                                                .hasAnyRole("EMPLOYEE", "HR", "ADMIN")
+
                                                 // Endpoint lainnya harus login
                                                 .anyRequest()
                                                 .authenticated())
